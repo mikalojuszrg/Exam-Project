@@ -34,7 +34,7 @@ app.post("/register", async (req, res) => {
     const email = req.body.email;
     const con = await client.connect();
     const user = await con
-      .db("social_media")
+      .db("project_exam")
       .collection("users")
       .findOne({ email });
     if (user) {
