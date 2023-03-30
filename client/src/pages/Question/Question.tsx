@@ -1,5 +1,8 @@
+import { useParams } from "react-router-dom";
+
 const Question = () => {
-  return <div>Question</div>;
+  const { id } = useParams();
+  return <div>Question{id}</div>;
 };
 
 export default Question;
