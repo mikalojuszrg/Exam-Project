@@ -16,6 +16,11 @@ export const fetchQuestions = async (): Promise<Question[]> => {
   return response.data;
 };
 
+export const fetchQuestion = async (id: number): Promise<Question> => {
+  const response = await axios.get(`${QUESTIONS_API_URL}/${id}`);
+  return response.data;
+};
+
 export const deleteQuestion = async (id: number): Promise<Question> => {
   const response = await axios.delete(`${QUESTIONS_API_URL}/${id}`);
   return response.data;
