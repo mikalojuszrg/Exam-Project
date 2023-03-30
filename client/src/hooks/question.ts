@@ -1,6 +1,7 @@
 import {
   createQuestion,
   deleteQuestion,
+  fetchQuestion,
   fetchQuestions,
   updateQuestion,
 } from "../api/question";
@@ -16,6 +17,10 @@ export const useCreateQuestion = () => {
 
 export const useQuestions = () => {
   return useQuery([QUESTIONS], fetchQuestions);
+};
+
+export const useQuestion = (id: number) => {
+  return useQuery([QUESTIONS, id], () => fetchQuestion(id));
 };
 
 export const useDeleteQuestion = () => {
