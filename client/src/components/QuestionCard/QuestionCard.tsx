@@ -8,16 +8,19 @@ import {
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaUserCircle } from "react-icons/fa";
 import Loader from "../Loader/Loader";
+import { QUESTION_PATH } from "../../consts/paths";
 import { Question } from "../../types/question";
 import { UserContext } from "../../contexts/UserContext";
 import { formatDate } from "../../utils/formatDate";
 import styles from "./QuestionCard.module.scss";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   question: Question;
 };
 
 const QuestionCard: React.FC<Props> = ({ question }) => {
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const { email } = user ?? {};
   const { mutateAsync: deletePost } = useDeleteQuestion();
@@ -27,6 +30,7 @@ const QuestionCard: React.FC<Props> = ({ question }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [updatedContent, setUpdatedContent] = useState(question.content);
+  const [updatedTitle, setUpdatedTitle] = useState(question.title);
 
   const handleDelete = async (id: number) => {
     setIsLoading(true);
@@ -40,6 +44,7 @@ const QuestionCard: React.FC<Props> = ({ question }) => {
     const updatedQuestion = {
       ...question,
       date: new Date().toString(),
+      title: updatedTitle,
       content: updatedContent,
     };
     updatedQuestion.id = question.id;
@@ -47,7 +52,10 @@ const QuestionCard: React.FC<Props> = ({ question }) => {
     await refetch();
     setIsLoading(false);
     setIsEditing(false);
-    console.log(updatedQuestion);
+  };
+
+  const handleTitleClick = () => {
+    navigate(`${question.id}`);
   };
 
   return (
@@ -84,12 +92,22 @@ const QuestionCard: React.FC<Props> = ({ question }) => {
             )}
           </div>
           {isEditing ? (
-            <textarea
-              value={updatedContent}
-              onChange={(e) => setUpdatedContent(e.target.value)}
-            />
+            <>
+              <input
+                type="text"
+                value={updatedTitle}
+                onChange={(e) => setUpdatedTitle(e.target.value)}
+              />
+              <textarea
+                value={updatedContent}
+                onChange={(e) => setUpdatedContent(e.target.value)}
+              />
+            </>
           ) : (
-            <p className={styles.container__content}>{question.content}</p>
+            <>
+              <h2 onClick={handleTitleClick}>{question.title}</h2>
+              <p className={styles.container__content}>{question.content}</p>
+            </>
           )}
           <p>
             {question.modified
