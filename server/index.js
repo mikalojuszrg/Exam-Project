@@ -189,6 +189,53 @@ app.put("/questions/:id", async (req, res) => {
   }
 });
 
+app.get("/questions/:id/answers", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db("project_exam")
+      .collection("answers")
+      .find({ question_id: parseInt(req.params.id) })
+      .toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send({
+      message: "An error occurred while processing your request",
+      error,
+    });
+  }
+});
+
+app.post("/questions/:id/answers", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const { answer } = req.body;
+    const { id } = req.params;
+    const result = await con
+      .db("project_exam")
+      .collection("answers")
+      .insertOne({
+        answer: answer,
+        question_id: parseInt(id),
+      });
+    await con.close();
+    if (result.insertedCount > 0) {
+      res.send(result.ops[0]);
+    } else {
+      res.status(500).send({
+        message: "An error occurred while processing your request",
+        error: "Inserted document is empty",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "An error occurred while processing your request",
+      error,
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`it works on port ${port} port`);
 });
