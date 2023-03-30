@@ -1,5 +1,6 @@
 export type Question = {
   content: string;
+  title: string;
   first_name: string;
   last_name: string;
   date: string;
