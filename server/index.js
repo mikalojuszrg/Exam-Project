@@ -82,6 +82,113 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/questions", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db("project_exam")
+      .collection("questions")
+      .insertOne(req.body);
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send({
+      message: "An error occurred while processing your request",
+      error,
+    });
+  }
+});
+
+app.get("/questions", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db("project_exam")
+      .collection("questions")
+      .find()
+      .toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.delete("/questions/:id", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db("project_exam")
+      .collection("questions")
+      .deleteOne({ id: parseInt(req.params.id) });
+    await con.close();
+    if (data.deletedCount === 1) {
+      res.status(200).json({ message: "Question deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Question not found" });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "An error occurred while processing your request",
+      error,
+    });
+  }
+});
+
+app.get("/questions/:id", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db("project_exam")
+      .collection("questions")
+      .findOne({ id: parseInt(req.params.id) });
+    await con.close();
+    if (data) {
+      res.status(200).json(data);
+    } else {
+      res.status(404).json({ message: "Question not found" });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "An error occurred while processing your request",
+      error,
+    });
+  }
+});
+
+app.put("/questions/:id", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const filter = { id: parseInt(req.params.id) };
+    const update = {
+      $set: {
+        ...req.body,
+        date: Date.now(),
+        modified: Date.now(),
+      },
+    };
+    const options = { returnOriginal: false };
+    const data = await con
+      .db("project_exam")
+      .collection("questions")
+      .findOneAndUpdate(filter, update, options);
+    await con.close();
+    if (data.value) {
+      console.log("Question updated:", data.value);
+      res.status(200).json(data.value);
+    } else {
+      console.log("Question not found");
+      res.status(404).json({ message: "Question not found" });
+    }
+  } catch (error) {
+    console.log("An error occurred:", error);
+    res.status(500).send({
+      message: "An error occurred while processing your request",
+      error,
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`it works on port ${port} port`);
 });
