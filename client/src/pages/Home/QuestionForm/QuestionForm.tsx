@@ -1,17 +1,20 @@
 import * as Yup from "yup";
 
 import { Field, Form, Formik, FormikHelpers } from "formik";
+import { NewQuestion, Question } from "../../../types/question";
 import { useContext, useState } from "react";
 import { useCreateQuestion, useQuestions } from "../../../hooks/question";
 
 import Button from "../../../components/Button/Button";
-import { NewQuestion } from "../../../types/question";
 import { UserContext } from "../../../contexts/UserContext";
 import styles from "./QuestionForm.module.scss";
 
 const validationSchema = Yup.object().shape({
+  title: Yup.string().required(
+    "Your question title can't be empty. Write something!"
+  ),
   content: Yup.string().required(
-    "Your question can't be empty. Write something!"
+    "Your question content can't be empty. Write something!"
   ),
 });
 
@@ -27,10 +30,15 @@ const QuestionForm = () => {
     { resetForm }: FormikHelpers<NewQuestion>
   ) => {
     setIsFetching(true);
-    await createPost({
+    const newQuestion: NewQuestion = {
       ...values,
       date: new Date().toString(),
-    });
+      id: new Date().getTime(),
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+    };
+    await createPost(newQuestion);
     resetForm();
     await refetch();
     setIsFetching(false);
@@ -41,6 +49,7 @@ const QuestionForm = () => {
       <Formik
         initialValues={
           {
+            title: "",
             content: "",
             email: email,
             id: new Date().getTime(),
@@ -54,6 +63,11 @@ const QuestionForm = () => {
       >
         {({ setFieldValue }) => (
           <Form className={styles.form}>
+            <Field
+              className={styles.form__input}
+              name="title"
+              placeholder="Enter your question title"
+            />
             <Field
               className={styles.form__textarea}
               name="content"
