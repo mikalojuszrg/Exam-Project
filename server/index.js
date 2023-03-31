@@ -216,19 +216,58 @@ app.post("/questions/:id/answers", async (req, res) => {
       .db("project_exam")
       .collection("answers")
       .insertOne({
-        answer: answer,
+        answer,
         question_id: parseInt(id),
+        answer_id: Date.now(),
       });
     await con.close();
-    if (result.insertedCount > 0) {
-      res.send(result.ops[0]);
-    } else {
-      res.status(500).send({
-        message: "An error occurred while processing your request",
-        error: "Inserted document is empty",
-      });
-    }
+    res.send("Answer added successfully");
   } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "An error occurred while processing your request",
+      error,
+    });
+  }
+});
+
+// Update an answer for a question by id and answer id
+app.put("/questions/:id/answers/:answerId", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const { answer } = req.body;
+    const { id, answerId } = req.params;
+    const result = await con
+      .db("project_exam")
+      .collection("answers")
+      .updateOne(
+        { question_id: parseInt(id), answer_id: parseInt(answerId) },
+        { $set: { answer } }
+      );
+    await con.close();
+    res.send("Answer updated successfully");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "An error occurred while processing your request",
+      error,
+    });
+  }
+});
+
+// Delete an answer for a question by id and answer id
+app.delete("/questions/:id/answers/:answerId", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const { id, answerId } = req.params;
+    const result = await con
+      .db("project_exam")
+      .collection("answers")
+      .deleteOne({ question_id: parseInt(id), answer_id: parseInt(answerId) });
+    await con.close();
+    res.send("Answer deleted successfully");
+  } catch (error) {
+    console.log(error);
     res.status(500).send({
       message: "An error occurred while processing your request",
       error,
