@@ -221,6 +221,8 @@ app.post("/questions/:id/answers", async (req, res) => {
         answer_id: Date.now(),
         date: new Date().toString(),
         email,
+        upvote: 0,
+        downvote: 0,
       });
     await con.close();
     res.send("Answer added successfully");
@@ -236,14 +238,14 @@ app.post("/questions/:id/answers", async (req, res) => {
 app.put("/questions/:id/answers/:answerId", async (req, res) => {
   try {
     const con = await client.connect();
-    const { answer } = req.body;
+    const { answer, upvote, downvote } = req.body;
     const { id, answerId } = req.params;
     const result = await con
       .db("project_exam")
       .collection("answers")
       .updateOne(
         { question_id: parseInt(id), answer_id: parseInt(answerId) },
-        { $set: { answer } }
+        { $set: { answer, upvote, downvote, modified: Date.now() } }
       );
     await con.close();
     res.send("Answer updated successfully");

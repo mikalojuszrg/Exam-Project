@@ -6,6 +6,9 @@ export type Answer = {
   question_id: number;
   date: string;
   modified?: string;
+  upvotedBy: string[];
+  upvote: number;
+  downvote: number;
 };
 
 export type NewAnswer = Omit<Answer, "_id">;

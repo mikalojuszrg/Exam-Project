@@ -1,16 +1,15 @@
 import * as Yup from "yup";
 
 import { Field, Form, Formik, FormikHelpers } from "formik";
+import { useAnswers, useCreateAnswer } from "../../../hooks/answer";
 import { useCallback, useContext, useState } from "react";
 
 import { NewAnswer } from "../../../types/answer";
 import { UserContext } from "../../../contexts/UserContext";
 import styles from "./AnswerForm.module.scss";
-import { useCreateAnswer } from "../../../hooks/answer";
 
 interface Props {
   questionId: number;
-  refetchAnswers?: () => Promise<void>;
 }
 
 const validationSchema = Yup.object().shape({
@@ -19,10 +18,11 @@ const validationSchema = Yup.object().shape({
     .required("Your answer can't be empty. Write something!"),
 });
 
-const AnswerForm = ({ questionId, refetchAnswers }: Props) => {
+const AnswerForm = ({ questionId }: Props) => {
   const { user } = useContext(UserContext);
   const { email = "" } = user ?? {};
   const { mutateAsync: createAnswer } = useCreateAnswer();
+  const { refetch } = useAnswers(questionId);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleSubmit = useCallback(
@@ -39,10 +39,10 @@ const AnswerForm = ({ questionId, refetchAnswers }: Props) => {
       };
       await createAnswer({ questionId: questionId, answer: newAnswer });
       resetForm();
-      await refetchAnswers?.();
+      refetch();
       setIsFetching(false);
     },
-    [createAnswer, email, questionId, refetchAnswers]
+    [createAnswer, email, questionId, refetch]
   );
 
   return (
@@ -54,6 +54,9 @@ const AnswerForm = ({ questionId, refetchAnswers }: Props) => {
           question_id: 0,
           email: "",
           date: "",
+          upvote: 0,
+          downvote: 0,
+          upvotedBy: [],
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}

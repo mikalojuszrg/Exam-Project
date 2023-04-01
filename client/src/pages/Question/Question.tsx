@@ -23,10 +23,7 @@ const QuestionPage = () => {
       {question ? (
         <>
           <QuestionCard question={question} />
-          <AnswerForm
-            questionId={question.id}
-            refetchAnswers={handleRefetchAnswers}
-          />
+          <AnswerForm questionId={question.id} />
           <AnswerTimeline questionId={question.id} />
         </>
       ) : (
