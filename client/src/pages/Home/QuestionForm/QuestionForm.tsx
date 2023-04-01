@@ -1,11 +1,11 @@
 import * as Yup from "yup";
 
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import { NewQuestion, Question } from "../../../types/question";
 import { useContext, useState } from "react";
 import { useCreateQuestion, useQuestions } from "../../../hooks/question";
 
 import Button from "../../../components/Button/Button";
+import { NewQuestion } from "../../../types/question";
 import { UserContext } from "../../../contexts/UserContext";
 import styles from "./QuestionForm.module.scss";
 
@@ -61,7 +61,7 @@ const QuestionForm = () => {
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
-        {({ setFieldValue }) => (
+        {() => (
           <Form className={styles.form}>
             <Field
               className={styles.form__input}
