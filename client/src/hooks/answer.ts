@@ -20,13 +20,17 @@ export const useAnswers = (questionId: number) => {
 };
 
 export const useDeleteAnswer = () => {
-  return useMutation((ids: [number, string]) => deleteAnswer(ids[0], ids[1]));
+  return useMutation((ids: [number, number]) => deleteAnswer(ids[0], ids[1]));
 };
 
 export const useUpdateAnswer = () => {
   return useMutation(
     (updatedAnswer: Answer) =>
-      updateAnswer(updatedAnswer.question_id, updatedAnswer._id, updatedAnswer),
+      updateAnswer(
+        updatedAnswer.question_id,
+        updatedAnswer.answer_id,
+        updatedAnswer
+      ),
     {
       mutationKey: [ANSWERS, "updateAnswer"],
     }
