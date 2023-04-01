@@ -22,7 +22,7 @@ export const fetchAnswers = async (questionId: number): Promise<Answer[]> => {
 
 export const updateAnswer = async (
   questionId: number,
-  answerId: string,
+  answerId: number,
   answer: Answer
 ): Promise<Answer> => {
   const { _id, ...data } = answer;
@@ -35,7 +35,7 @@ export const updateAnswer = async (
 
 export const deleteAnswer = async (
   questionId: number,
-  answerId: string
+  answerId: number
 ): Promise<void> => {
   await axios.delete(`${ANSWERS_API_URL}/${questionId}/answers/${answerId}`);
 };
