@@ -1,17 +1,14 @@
 import AnswerForm from "./QuestionForm/AnswerForm";
+import AnswerTimeline from "./AnswerTimeline/AnswerTimeline";
+import { Question } from "../../types/question";
+import QuestionCard from "../../components/QuestionCard/QuestionCard";
 import { useParams } from "react-router-dom";
 import { useQuestion } from "../../hooks/question";
 
-type QuestionPreview = {
-  title: string;
-  content: string;
-  id: number;
-};
-
-const Question = () => {
+const QuestionPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, refetch } = useQuestion(parseInt(id || "0"));
-  const question: QuestionPreview = data || { title: "", content: "", id: 0 };
+  const question: Question | undefined = data;
 
   const handleRefetchAnswers = async () => {
     await refetch();
@@ -23,14 +20,20 @@ const Question = () => {
 
   return (
     <div>
-      <h1>{question.title}</h1>
-      <p>{question.content}</p>
-      <AnswerForm
-        questionId={question.id}
-        refetchAnswers={handleRefetchAnswers}
-      />
+      {question ? (
+        <>
+          <QuestionCard question={question} />
+          <AnswerForm
+            questionId={question.id}
+            refetchAnswers={handleRefetchAnswers}
+          />
+          <AnswerTimeline questionId={question.id} />
+        </>
+      ) : (
+        <div>No question found</div>
+      )}
     </div>
   );
 };
 
-export default Question;
+export default QuestionPage;
