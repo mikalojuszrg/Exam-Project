@@ -1,11 +1,11 @@
 import QuestionForm from "./QuestionForm/QuestionForm";
-import TimeLine from "./Timeline/Timeline";
+import QuestionTimeLine from "./Timeline/QuestionTimeline";
 
 const Home = () => {
   return (
     <div>
       <QuestionForm />
-      <TimeLine />
+      <QuestionTimeLine />
     </div>
   );
 };
