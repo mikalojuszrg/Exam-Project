@@ -210,7 +210,7 @@ app.get("/questions/:id/answers", async (req, res) => {
 app.post("/questions/:id/answers", async (req, res) => {
   try {
     const con = await client.connect();
-    const { answer } = req.body;
+    const { answer, email } = req.body;
     const { id } = req.params;
     const result = await con
       .db("project_exam")
@@ -219,6 +219,8 @@ app.post("/questions/:id/answers", async (req, res) => {
         answer,
         question_id: parseInt(id),
         answer_id: Date.now(),
+        date: new Date().toString(),
+        email,
       });
     await con.close();
     res.send("Answer added successfully");
@@ -231,7 +233,6 @@ app.post("/questions/:id/answers", async (req, res) => {
   }
 });
 
-// Update an answer for a question by id and answer id
 app.put("/questions/:id/answers/:answerId", async (req, res) => {
   try {
     const con = await client.connect();
@@ -255,7 +256,6 @@ app.put("/questions/:id/answers/:answerId", async (req, res) => {
   }
 });
 
-// Delete an answer for a question by id and answer id
 app.delete("/questions/:id/answers/:answerId", async (req, res) => {
   try {
     const con = await client.connect();
