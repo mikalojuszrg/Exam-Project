@@ -35,7 +35,6 @@ export const updateQuestion = async (id: number, question: Question) => {
       ...data,
       modified,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
