@@ -10,9 +10,9 @@ const QuestionPage = () => {
   const { data, isLoading, refetch } = useQuestion(parseInt(id || "0"));
   const question: Question | undefined = data;
 
-  const handleRefetchAnswers = async () => {
-    await refetch();
-  };
+  // const handleRefetchAnswers = async () => {
+  //   await refetch();
+  // };
 
   if (isLoading) {
     return <div>Loading...</div>;
