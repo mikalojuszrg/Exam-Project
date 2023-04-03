@@ -21,7 +21,6 @@ type Props = {
 const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
   const { user } = useContext(UserContext);
   const { email } = user ?? {};
-  console.log(email);
   const { mutateAsync: deleteAnswer } = useDeleteAnswer();
   const { refetch } = useAnswers(questionId);
   const { mutateAsync: updateAnswer } = useUpdateAnswer();
@@ -53,7 +52,7 @@ const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
 
   const handleVote = async (vote: "upvote" | "downvote") => {
     if (!email) {
-      return; // If user is not logged in, do nothing.
+      return;
     }
     console.log(email);
     setIsLoading(true);
@@ -70,7 +69,7 @@ const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
       updatedAns.downvote += 1;
       updatedAns.upvotedBy = upvotedBy.filter((e) => e !== email);
     }
-
+    console.log(updatedAns);
     await updateAnswer(updatedAns);
 
     await refetch();
@@ -79,16 +78,15 @@ const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
 
   const handleUnvote = async () => {
     if (!email) {
-      return; // If user is not logged in, do nothing.
+      return;
     }
     setIsLoading(true);
     const updatedAns = { ...answer };
-    updatedAns.upvote = answer.upvote ?? 0;
+    updatedAns.upvote = (answer.upvote ?? 0) - 1;
     updatedAns.downvote = answer.downvote ?? 0;
     updatedAns.upvotedBy = upvotedBy.filter((e) => e !== email);
 
     await updateAnswer(updatedAns);
-
     await refetch();
     setIsLoading(false);
   };
@@ -166,21 +164,14 @@ const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
             >
               ▼
             </button>
-            {upvotedBy.includes(email!) && (
-              <button
-                className={styles.unvote}
-                onClick={handleUnvote}
-                disabled={isLoading}
-              >
-                ✕
-              </button>
-            )}
           </div>
         </div>
       </div>
-      <div className={styles.questionLink}>
-        <span>Answer to: </span>
-      </div>
+      <p>
+        {answer.modified
+          ? `Last modified: ${formatDate(answer.modified)}`
+          : formatDate(answer.date)}
+      </p>
       {isLoading && <Loader />}
     </div>
   );
