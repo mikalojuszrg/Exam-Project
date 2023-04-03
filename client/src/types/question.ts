@@ -8,6 +8,8 @@ export type Question = {
   email: string;
   id: number;
   modified?: string;
+  answersCount?: number;
+  answerCount: number;
 };
 
 export type NewQuestion = Omit<Question, "_id">;
