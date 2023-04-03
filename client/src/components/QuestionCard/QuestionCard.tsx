@@ -20,6 +20,7 @@ type Props = {
 };
 
 const QuestionCard: React.FC<Props> = ({ question }) => {
+  const answerCount = question.answerCount;
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const { email } = user ?? {};
@@ -107,6 +108,10 @@ const QuestionCard: React.FC<Props> = ({ question }) => {
             <>
               <h2 onClick={handleTitleClick}>{question.title}</h2>
               <p className={styles.container__content}>{question.content}</p>
+              <p>
+                {question.answerCount}{" "}
+                {question.answerCount === 1 ? "answer" : "answers"}
+              </p>
             </>
           )}
           <p>
