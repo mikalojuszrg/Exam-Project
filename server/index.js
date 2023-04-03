@@ -238,22 +238,43 @@ app.post("/questions/:id/answers", async (req, res) => {
 app.put("/questions/:id/answers/:answerId", async (req, res) => {
   try {
     const con = await client.connect();
-    const { answer, upvote, downvote } = req.body;
+    const { answer, upvote, downvote, email } = req.body;
+    console.log(email); // add this line to log the value of email
     const { id, answerId } = req.params;
+
+    // Validate email
+    if (!email || typeof email !== "string") {
+      throw new Error("Invalid email");
+    }
+
+    // Validate upvote and downvote
+    if (!Number.isInteger(upvote) || !Number.isInteger(downvote)) {
+      throw new Error("Invalid upvote or downvote");
+    }
+
     const result = await con
       .db("project_exam")
       .collection("answers")
       .updateOne(
         { question_id: parseInt(id), answer_id: parseInt(answerId) },
-        { $set: { answer, upvote, downvote, modified: Date.now() } }
+        {
+          $set: { answer, upvote, downvote, modified: Date.now() },
+          $push: { upvotedBy: email },
+        }
       );
+
+    // Check if the document was updated
+    if (result.modifiedCount !== 1) {
+      throw new Error("Answer not found");
+    }
+
     await con.close();
     res.send("Answer updated successfully");
   } catch (error) {
     console.log(error);
-    res.status(500).send({
+    res.status(400).send({
       message: "An error occurred while processing your request",
-      error,
+      error: error.message,
     });
   }
 });

@@ -29,7 +29,8 @@ export const useUpdateAnswer = () => {
       updateAnswer(
         updatedAnswer.question_id,
         updatedAnswer.answer_id,
-        updatedAnswer
+        updatedAnswer,
+        updatedAnswer.email
       ),
     {
       mutationKey: [ANSWERS, "updateAnswer"],

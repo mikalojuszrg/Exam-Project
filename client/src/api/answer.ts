@@ -23,12 +23,14 @@ export const fetchAnswers = async (questionId: number): Promise<Answer[]> => {
 export const updateAnswer = async (
   questionId: number,
   answerId: number,
-  answer: Answer
+  answer: Answer,
+  email: string
 ): Promise<Answer> => {
+  console.log(email); // add this line to log the value of email
   const { _id, ...data } = answer;
   const response = await axios.put(
     `${ANSWERS_API_URL}/${questionId}/answers/${answerId}`,
-    data
+    { ...data, email, upvotedBy: answer.upvotedBy } // add upvotedBy to the request payload
   );
   return response.data;
 };

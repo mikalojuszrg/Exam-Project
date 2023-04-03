@@ -21,6 +21,7 @@ type Props = {
 const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
   const { user } = useContext(UserContext);
   const { email } = user ?? {};
+  console.log(email);
   const { mutateAsync: deleteAnswer } = useDeleteAnswer();
   const { refetch } = useAnswers(questionId);
   const { mutateAsync: updateAnswer } = useUpdateAnswer();
@@ -54,6 +55,7 @@ const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
     if (!email) {
       return; // If user is not logged in, do nothing.
     }
+    console.log(email);
     setIsLoading(true);
     const updatedAns = { ...answer };
     updatedAns.upvote = answer.upvote ?? 0;
@@ -62,11 +64,15 @@ const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
     if (vote === "upvote") {
       updatedAns.upvote += 1;
       updatedAns.upvotedBy.push(email);
+      updatedAns.upvotedBy = [...new Set([...upvotedBy, email])];
+      console.log(updatedAns);
     } else {
       updatedAns.downvote += 1;
+      updatedAns.upvotedBy = upvotedBy.filter((e) => e !== email);
     }
 
     await updateAnswer(updatedAns);
+
     await refetch();
     setIsLoading(false);
   };
@@ -79,9 +85,10 @@ const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
     const updatedAns = { ...answer };
     updatedAns.upvote = answer.upvote ?? 0;
     updatedAns.downvote = answer.downvote ?? 0;
-    updatedAns.upvotedBy = upvotedBy.filter((email) => email !== email);
+    updatedAns.upvotedBy = upvotedBy.filter((e) => e !== email);
 
     await updateAnswer(updatedAns);
+
     await refetch();
     setIsLoading(false);
   };
