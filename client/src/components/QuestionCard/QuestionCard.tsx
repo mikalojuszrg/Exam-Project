@@ -1,19 +1,24 @@
+import {
+  AiFillEdit,
+  AiOutlineDelete,
+  AiOutlineSave,
+  AiOutlineUndo,
+} from "react-icons/ai";
+import { HOME_PATH, QUESTION_PATH } from "../../consts/paths";
 import { useContext, useState } from "react";
 import {
   useDeleteQuestion,
   useQuestions,
   useUpdateQuestion,
 } from "../../hooks/question";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { AiOutlineDelete } from "react-icons/ai";
 import { FaUserCircle } from "react-icons/fa";
 import Loader from "../Loader/Loader";
-import { QUESTION_PATH } from "../../consts/paths";
 import { Question } from "../../types/question";
 import { UserContext } from "../../contexts/UserContext";
 import { formatDate } from "../../utils/formatDate";
 import styles from "./QuestionCard.module.scss";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
   question: Question;
@@ -21,6 +26,7 @@ type Props = {
 
 const QuestionCard: React.FC<Props> = ({ question }) => {
   const answerCount = question.answerCount;
+  const location = useLocation();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const { email } = user ?? {};
@@ -65,25 +71,24 @@ const QuestionCard: React.FC<Props> = ({ question }) => {
       {!isLoading && (
         <div className={styles.container}>
           <div className={styles.container__title}>
-            <FaUserCircle
-              className={
-                loggedUserPost
-                  ? styles.container__logged
-                  : styles.container__unlogged
-              }
-            />
-            <p className={styles.container__name}>
-              {question.first_name} {question.last_name}
-            </p>
             {loggedUserPost && (
               <>
                 {isEditing ? (
                   <>
-                    <button onClick={() => setIsEditing(false)}>Cancel</button>
-                    <button onClick={handleUpdate}>Save</button>
+                    <AiOutlineUndo
+                      className={styles.container__icon}
+                      onClick={() => setIsEditing(false)}
+                    />
+                    <AiOutlineSave
+                      className={styles.container__icon}
+                      onClick={handleUpdate}
+                    />
                   </>
                 ) : (
-                  <button onClick={() => setIsEditing(true)}>Edit</button>
+                  <AiFillEdit
+                    className={styles.container__icon}
+                    onClick={() => setIsEditing(true)}
+                  />
                 )}
                 <AiOutlineDelete
                   className={styles.container__deletebtn}
@@ -95,23 +100,42 @@ const QuestionCard: React.FC<Props> = ({ question }) => {
           {isEditing ? (
             <>
               <input
+                className={styles.container__input}
                 type="text"
                 value={updatedTitle}
                 onChange={(e) => setUpdatedTitle(e.target.value)}
               />
               <textarea
+                className={styles.container__input}
                 value={updatedContent}
                 onChange={(e) => setUpdatedContent(e.target.value)}
               />
             </>
           ) : (
             <>
-              <h2 onClick={handleTitleClick}>{question.title}</h2>
+              <h2 className={styles.container__name} onClick={handleTitleClick}>
+                {question.title}
+              </h2>
               <p className={styles.container__content}>{question.content}</p>
-              <p>
-                {question.answerCount}{" "}
-                {question.answerCount === 1 ? "answer" : "answers"}
-              </p>
+              {location.pathname === HOME_PATH ? (
+                <p>
+                  {question.answerCount}{" "}
+                  {question.answerCount === 1 ? "answer" : "answers"}
+                </p>
+              ) : (
+                <></>
+              )}
+
+              <div className={styles.container__user}>
+                <FaUserCircle
+                  className={
+                    loggedUserPost
+                      ? styles.container__logged
+                      : styles.container__unlogged
+                  }
+                />
+                <p className={styles.container__name}>{question.email}</p>
+              </div>
             </>
           )}
           <p>
