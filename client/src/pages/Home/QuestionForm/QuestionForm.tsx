@@ -5,6 +5,8 @@ import { useContext, useState } from "react";
 import { useCreateQuestion, useQuestions } from "../../../hooks/question";
 
 import Button from "../../../components/Button/Button";
+import FormikInput from "../../../components/FormikInput/FormikInput";
+import FormikTextArea from "../../../components/FormikTextarea/FormikTextarea";
 import { NewQuestion } from "../../../types/question";
 import { UserContext } from "../../../contexts/UserContext";
 import styles from "./QuestionForm.module.scss";
@@ -63,16 +65,14 @@ const QuestionForm = () => {
       >
         {() => (
           <Form className={styles.form}>
-            <Field
-              className={styles.form__input}
+            <FormikInput
+              type="text"
               name="title"
               placeholder="Enter your question title"
             />
-            <Field
-              className={styles.form__textarea}
+            <FormikTextArea
               name="content"
-              placeholder="Share what's new in your life!"
-              component="textarea"
+              placeholder="Enter your question content"
             />
             <Button
               variant="primary"
