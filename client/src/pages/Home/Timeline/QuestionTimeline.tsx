@@ -77,11 +77,11 @@ const QuestionTimeline = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.sortButtons}>
+      <div className={styles.container__sort}>
         <button onClick={handleSortByDate}>Sort by date</button>
         <button onClick={handleSortByAnswers}>Sort by answer count</button>
       </div>
-      <div className={styles.filterButtons}>
+      <div className={styles.container__filter}>
         <button onClick={() => setFilter("all")}>All questions</button>
         <button onClick={() => setFilter("answered")}>
           Answered questions
@@ -90,13 +90,15 @@ const QuestionTimeline = () => {
           Unanswered questions
         </button>
       </div>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        sortedQuestions.map((question: Question) => (
-          <QuestionCard question={question} key={question._id} />
-        ))
-      )}
+      <div className={styles.container__questions}>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          sortedQuestions.map((question: Question) => (
+            <QuestionCard question={question} key={question._id} />
+          ))
+        )}
+      </div>
     </div>
   );
 };
