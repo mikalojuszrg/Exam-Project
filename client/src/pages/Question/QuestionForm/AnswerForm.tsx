@@ -4,6 +4,8 @@ import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useAnswers, useCreateAnswer } from "../../../hooks/answer";
 import { useCallback, useContext, useState } from "react";
 
+import Button from "../../../components/Button/Button";
+import FormikTextArea from "../../../components/FormikTextarea/FormikTextarea";
 import { NewAnswer } from "../../../types/answer";
 import { UserContext } from "../../../contexts/UserContext";
 import styles from "./AnswerForm.module.scss";
@@ -63,19 +65,13 @@ const AnswerForm = ({ questionId }: Props) => {
       >
         {() => (
           <Form className={styles.form}>
-            <Field
-              className={styles.form__textarea}
+            <FormikTextArea
               name="answer"
               placeholder="Write your answer here..."
-              component="textarea"
             />
-            <button
-              className={styles.form__button}
-              type="submit"
-              disabled={isFetching}
-            >
-              {isFetching ? "Posting..." : "POST"}
-            </button>
+            <Button variant="primary" type="submit" disabled={isFetching}>
+              {isFetching ? "Answering..." : "ANSWER"}
+            </Button>
           </Form>
         )}
       </Formik>
