@@ -1,11 +1,17 @@
 import {
+  AiFillEdit,
+  AiOutlineDelete,
+  AiOutlineSave,
+  AiOutlineUndo,
+} from "react-icons/ai";
+import { BiDownvote, BiUpvote } from "react-icons/bi";
+import {
   useAnswers,
   useDeleteAnswer,
   useUpdateAnswer,
 } from "../../hooks/answer";
 import { useContext, useState } from "react";
 
-import { AiOutlineDelete } from "react-icons/ai";
 import { Answer } from "../../types/answer";
 import { FaUserCircle } from "react-icons/fa";
 import Loader from "../Loader/Loader";
@@ -92,86 +98,72 @@ const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
   };
 
   return (
-    <div className={styles.answerCard}>
-      <div className={styles.answerContent}>
-        <div className={styles.left}>
-          <FaUserCircle className={styles.userIcon} />
-        </div>
-        <div className={styles.right}>
+    <div className={styles.container}>
+      <div className={styles.container__content}>
+        <div>
           {loggedUserAnswer && (
-            <div className={styles.editDelete}>
+            <div className={styles.container__title}>
               {isEditing ? (
                 <>
-                  <button
-                    className={styles.saveBtn}
+                  <AiOutlineSave
+                    className={styles.container__icon}
                     onClick={handleUpdate}
-                    disabled={isLoading}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className={styles.cancelBtn}
+                  />
+                  <AiOutlineUndo
+                    className={styles.container__icon}
                     onClick={() => setIsEditing(false)}
-                    disabled={isLoading}
-                  >
-                    Cancel
-                  </button>
+                  />
                 </>
               ) : (
                 <>
-                  <button
-                    className={styles.editBtn}
+                  <AiFillEdit
+                    className={styles.container__icon}
                     onClick={() => setIsEditing(true)}
-                    disabled={isLoading}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className={styles.deleteBtn}
+                  ></AiFillEdit>
+                  <AiOutlineDelete
+                    className={styles.container__icon}
                     onClick={() => handleDelete([questionId, answer.answer_id])}
-                    disabled={isLoading}
-                  >
-                    <AiOutlineDelete />
-                  </button>
+                  ></AiOutlineDelete>
                 </>
               )}
             </div>
           )}
           {isEditing ? (
             <textarea
-              className={styles.editAnswer}
+              className={styles.container__input}
               value={updatedAnswer}
               onChange={(e) => setUpdatedAnswer(e.target.value)}
             />
           ) : (
             <p className={styles.answer}>{answer.answer}</p>
           )}
-          <div className={styles.votes}>
-            <button
+          <div className={styles.container__votes}>
+            <BiUpvote
               className={styles.upvote}
               onClick={() => handleVote("upvote")}
-              disabled={isLoading}
-            >
-              ▲
-            </button>
+            />
             <span className={styles.voteCount}>
               {answer.upvote - answer.downvote}
             </span>
-            <button
-              className={styles.downvote}
-              onClick={() => handleVote("downvote")}
-              disabled={isLoading}
-            >
-              ▼
-            </button>
+            <BiDownvote onClick={() => handleVote("downvote")} />
           </div>
         </div>
+        <div className={styles.container__user}>
+          <FaUserCircle
+            className={
+              loggedUserAnswer
+                ? styles.container__logged
+                : styles.container__unlogged
+            }
+          />
+          <p className={styles.container__name}>{answer.email}</p>
+        </div>
+        <p>
+          {answer.modified
+            ? `Last modified: ${formatDate(answer.modified)}`
+            : formatDate(answer.date)}
+        </p>
       </div>
-      <p>
-        {answer.modified
-          ? `Last modified: ${formatDate(answer.modified)}`
-          : formatDate(answer.date)}
-      </p>
       {isLoading && <Loader />}
     </div>
   );
