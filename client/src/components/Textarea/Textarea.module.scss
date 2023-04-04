@@ -1,0 +1,15 @@
+@use "../../sass/utils/colorVariable.scss" as color;
+
+.textarea {
+  border: 1px solid color.$base-color-primary;
+  padding: 1.8rem 0rem;
+  text-indent: 1rem;
+  border-radius: 1.7rem;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 1rem;
+
+  &:focus {
+    outline: 0;
+  }
+}

@@ -21,4 +21,16 @@
   &--secondary {
     background-color: transparent;
   }
+
+  &--tertiary {
+    background-color: color.$base-color-secondary;
+    color: color.$base-color-tertiary;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+
+    &:focus-visible,
+    &:active {
+      color: color.$base-color-primary;
+    }
+  }
 }

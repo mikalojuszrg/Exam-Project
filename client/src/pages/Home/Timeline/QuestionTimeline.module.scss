@@ -1,0 +1,17 @@
+.container {
+  &__sort {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  &__filter {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    width: fit-content;
+    margin: 0 auto;
+  }
+}
