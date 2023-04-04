@@ -5,6 +5,7 @@ import {
   sortQuestionsByDateDesc,
 } from "../../../utils/sortQuestions";
 
+import Button from "../../../components/Button/Button";
 import Loader from "../../../components/Loader/Loader";
 import { Question } from "../../../types/question";
 import QuestionCard from "../../../components/QuestionCard/QuestionCard";
@@ -78,17 +79,23 @@ const QuestionTimeline = () => {
   return (
     <div className={styles.container}>
       <div className={styles.container__sort}>
-        <button onClick={handleSortByDate}>Sort by date</button>
-        <button onClick={handleSortByAnswers}>Sort by answer count</button>
+        <Button variant="tertiary" onClick={handleSortByDate}>
+          Sort by date
+        </Button>
+        <Button variant="tertiary" onClick={handleSortByAnswers}>
+          Sort by answer count
+        </Button>
       </div>
       <div className={styles.container__filter}>
-        <button onClick={() => setFilter("all")}>All questions</button>
-        <button onClick={() => setFilter("answered")}>
+        <Button variant="tertiary" onClick={() => setFilter("all")}>
+          All questions
+        </Button>
+        <Button variant="tertiary" onClick={() => setFilter("answered")}>
           Answered questions
-        </button>
-        <button onClick={() => setFilter("unanswered")}>
+        </Button>
+        <Button variant="tertiary" onClick={() => setFilter("unanswered")}>
           Unanswered questions
-        </button>
+        </Button>
       </div>
       <div className={styles.container__questions}>
         {isLoading ? (
