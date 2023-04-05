@@ -60,7 +60,6 @@ const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
     if (!email) {
       return;
     }
-    console.log(email);
     setIsLoading(true);
     const updatedAns = { ...answer };
     updatedAns.upvote = answer.upvote ?? 0;
@@ -70,29 +69,12 @@ const AnswerCard: React.FC<Props> = ({ answer, questionId }) => {
       updatedAns.upvote += 1;
       updatedAns.upvotedBy.push(email);
       updatedAns.upvotedBy = [...new Set([...upvotedBy, email])];
-      console.log(updatedAns);
     } else {
       updatedAns.downvote += 1;
       updatedAns.upvotedBy = upvotedBy.filter((e) => e !== email);
     }
-    console.log(updatedAns);
     await updateAnswer(updatedAns);
 
-    await refetch();
-    setIsLoading(false);
-  };
-
-  const handleUnvote = async () => {
-    if (!email) {
-      return;
-    }
-    setIsLoading(true);
-    const updatedAns = { ...answer };
-    updatedAns.upvote = (answer.upvote ?? 0) - 1;
-    updatedAns.downvote = answer.downvote ?? 0;
-    updatedAns.upvotedBy = upvotedBy.filter((e) => e !== email);
-
-    await updateAnswer(updatedAns);
     await refetch();
     setIsLoading(false);
   };

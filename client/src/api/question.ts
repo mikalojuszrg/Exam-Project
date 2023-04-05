@@ -27,7 +27,6 @@ export const deleteQuestion = async (id: number): Promise<Question> => {
 };
 
 export const updateQuestion = async (id: number, question: Question) => {
-  console.log("ID:", id);
   try {
     const { _id, ...data } = question; // Remove _id field
     const modified = new Date().toString(); // Add modified property

@@ -18,6 +18,5 @@ export const fetchUsers = async (): Promise<User> => {
 
 export const loginUser = async (user: UserLogin): Promise<User> => {
   const response = await axios.post(USER_LOGIN_API_URL, user);
-  console.log(response.data);
   return response.data;
 };
