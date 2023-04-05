@@ -29,7 +29,6 @@ const LoginForm = () => {
   const handleSubmit = (values: Login) => {
     loginUser(values)
       .then((response) => {
-        console.log(response);
         setUser(response);
         navigate(HOME_PATH);
         toast.success("Login successful");
