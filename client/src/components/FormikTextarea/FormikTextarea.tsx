@@ -1,5 +1,5 @@
 import { ErrorMessage, Field } from "formik";
-import TextArea, { Props } from "../Textarea/TextArea";
+import TextArea, { Props } from "../Textarea/Textarea";
 
 const FormikTextArea = (props: Props) => {
   return (
