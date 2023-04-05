@@ -4,7 +4,6 @@ import {
   AiOutlineSave,
   AiOutlineUndo,
 } from "react-icons/ai";
-import { HOME_PATH, QUESTION_PATH } from "../../consts/paths";
 import { useContext, useState } from "react";
 import {
   useDeleteQuestion,
@@ -14,6 +13,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { FaUserCircle } from "react-icons/fa";
+import { HOME_PATH } from "../../consts/paths";
 import Loader from "../Loader/Loader";
 import { Question } from "../../types/question";
 import { UserContext } from "../../contexts/UserContext";
