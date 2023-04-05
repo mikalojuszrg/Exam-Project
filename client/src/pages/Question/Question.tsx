@@ -8,7 +8,7 @@ import { useQuestion } from "../../hooks/question";
 
 const QuestionPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading, refetch } = useQuestion(parseInt(id || "0"));
+  const { data, isLoading } = useQuestion(parseInt(id || "0"));
   const question: Question | undefined = data;
 
   if (isLoading) {
