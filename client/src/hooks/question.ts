@@ -30,7 +30,7 @@ export const useDeleteQuestion = () => {
 export const useUpdateQuestion = () => {
   return useMutation(
     (updatedQuestion: Question) => {
-      const { modified, ...data } = updatedQuestion; // Remove modified field
+      const { modified, ...data } = updatedQuestion;
       return updateQuestion(updatedQuestion.id, {
         ...data,
         modified: Date.now().toString(),
