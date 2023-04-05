@@ -5,13 +5,13 @@ import styles from "./Button.module.scss";
 
 const cn = classNames.bind(styles);
 
-interface props {
+type props = {
   children: ReactNode;
   onClick?: () => void;
   type?: string;
   variant: string;
   disabled?: boolean;
-}
+};
 
 const Button: React.FC<props> = ({ children, variant, onClick }) => {
   const classes = buttonClassNames[variant];
