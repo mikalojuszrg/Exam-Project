@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-import { Field, Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { useContext, useState } from "react";
 import { useCreateQuestion, useQuestions } from "../../../hooks/question";
 
