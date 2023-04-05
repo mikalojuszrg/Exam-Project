@@ -1,4 +1,5 @@
 @use "../../sass/utils/colorVariable.scss" as color;
+@import "../../sass/mixins/mediaQueries.scss";
 
 .container {
   display: flex;
@@ -8,10 +9,28 @@
   margin-top: 1rem;
   align-items: center;
 
+  @include medium {
+    flex-direction: column;
+  }
+
+  @include small {
+    flex-direction: column;
+  }
+
   &__info {
     width: 50%;
     display: flex;
     flex-direction: column;
+
+    @include medium {
+      width: 80%;
+      text-align: center;
+    }
+
+    @include small {
+      width: 80%;
+      text-align: center;
+    }
   }
 
   &__subheading {
@@ -32,6 +51,14 @@
 
   &__visual {
     width: 50%;
+
+    @include medium {
+      width: 75%;
+    }
+
+    @include small {
+      width: 80%;
+    }
 
     img {
       border-radius: 2rem;
