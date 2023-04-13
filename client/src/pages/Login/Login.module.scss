@@ -1,0 +1,68 @@
+@use "../../sass/utils/colorVariable.scss" as color;
+@import "../../sass/mixins/mediaQueries.scss";
+
+.container {
+  display: flex;
+  height: 100%;
+  margin-bottom: 3rem;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: center;
+
+  @include medium {
+    flex-direction: column;
+  }
+
+  @include small {
+    flex-direction: column;
+  }
+
+  &__info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+
+    @include medium {
+      width: 80%;
+      text-align: center;
+    }
+
+    @include small {
+      width: 80%;
+      text-align: center;
+    }
+  }
+
+  &__subheading {
+    color: color.$base-color-primary;
+    font-size: 1rem;
+  }
+
+  &__heading {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  &__description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    line-height: 2rem;
+  }
+
+  &__visual {
+    width: 50%;
+
+    @include medium {
+      width: 75%;
+    }
+
+    @include small {
+      width: 80%;
+    }
+
+    img {
+      border-radius: 2rem;
+      width: 100%;
+    }
+  }
+}

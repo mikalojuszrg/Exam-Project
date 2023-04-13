@@ -1,0 +1,68 @@
+@use "../../sass/utils/colorVariable.scss" as color;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 0.1rem solid color.$base-color-primary;
+  border-radius: 1rem;
+  margin: 1rem 0rem;
+
+  &__content {
+    padding: 1rem;
+  }
+
+  &__votes {
+    display: flex;
+    align-items: center;
+  }
+
+  &__input {
+    font-family: inherit;
+    text-indent: 0.3rem;
+    padding: 0.3rem 0rem;
+    margin: 0.4rem 0rem;
+    width: 100%;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    font-size: 1rem;
+
+    button {
+      width: fit-content;
+    }
+  }
+
+  &__icon {
+    cursor: pointer;
+    font-size: 1.5rem;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  &__user {
+    display: flex;
+    gap: 0.2rem;
+    margin-top: 1rem;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    font-size: 1rem;
+
+    button {
+      width: fit-content;
+    }
+  }
+
+  &__logged {
+    color: color.$base-color-primary;
+  }
+}

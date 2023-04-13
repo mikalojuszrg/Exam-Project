@@ -1,0 +1,22 @@
+@import "../../../sass/mixins/mediaQueries.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+
+    @include small {
+      width: 100%;
+    }
+
+    Button {
+      margin: 0 auto;
+      margin-bottom: 1rem;
+    }
+  }
+}

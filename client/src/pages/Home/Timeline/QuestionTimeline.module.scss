@@ -1,0 +1,29 @@
+@import "../../../sass/mixins/mediaQueries.scss";
+
+.container {
+  &__sort {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    width: fit-content;
+    margin: 0 auto;
+
+    @include small {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  &__filter {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    width: fit-content;
+    margin: 0 auto;
+
+    @include small {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+}

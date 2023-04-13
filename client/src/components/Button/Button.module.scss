@@ -1,0 +1,36 @@
+@use "../../sass/utils/colorVariable.scss" as color;
+
+.button {
+  font-size: 1.5rem;
+  border: 2px solid color.$base-color-primary;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  padding: 0.5rem 1rem;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &--primary {
+    background-color: color.$base-color-secondary;
+    color: color.$base-color-primary;
+    border-radius: 1.7rem;
+  }
+
+  &--secondary {
+    background-color: transparent;
+  }
+
+  &--tertiary {
+    background-color: color.$base-color-secondary;
+    color: color.$base-color-tertiary;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+
+    &:focus-visible,
+    &:active {
+      color: color.$base-color-primary;
+    }
+  }
+}
